@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Login page{% endblock %}
+
+{% block content %}
+    <div class="row profile">
+        <div class="col-5">
+            <form method="post">{% csrf_token %}
+                {{ login_form | crispy }}
+                <p>Ro'yxatdan o'tmaganmisiz? <a href="{% url 'users:register' %}">Ro'yxatdan o'tish</a></p>
+                <button class="btn btn-primary centered">Log in</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

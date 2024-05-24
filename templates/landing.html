@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Landing page</h1>
+<p>Goodreads is an American social cataloging website and a subsidiary of Amazon[1] that allows individuals to search
+    its database of books, annotations, quotes, and reviews. Users can sign up and register books to generate library
+    catalogs and reading lists. They can also create their own groups of book suggestions, surveys, polls, blogs, and
+    discussions. The website's offices are located in San Francisco.[2]
+
+    Goodreads was founded in December 2006 and launched in January 2007 by Otis Chandler and Elizabeth Huri
+    Chandler.[3][4] In December 2007, the site had 650,000 members[5] and 10,000,000 books had been added.[6] By July
+    2012, the site reported 10 million members, 20 million monthly visits, and thirty employees.[7] On March 28, 2013,
+    Amazon announced its acquisition of Goodreads,[8] and by July 23, 2013, Goodreads announced their user base had
+    grown to 20 million members.[9]
+
+    By July 2019, the site had 90 million members</p>
+<h3>All reviews</h3>
+{% for review in page_obj %}
+<div class="container posts-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="media mb-3">
+                  <img src="{{ review.user.profile_photo.url }}" class="small-photo me-3" alt="profile image">
+                  <div class="media-body ml-3">
+                      <b>{{ review.user.username }}</b> rated this book <i>{{ review.stars_given }} stars</i>
+                    <div class="text-muted small">{{ review.created_at |date:"M d, Y" }}</div>
+                  </div>
+                </div>
+                <p>{{ review.comment | truncatewords:25 }}</p>
+                <img class="cover_pic centered" src="{{ review.book.cover_picture.url }}">
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a> </li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+        {% endif %}
+        <li class="page-item active">
+            <a href="#" class="page-link">{{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a> </li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}
